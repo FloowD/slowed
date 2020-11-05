@@ -1,24 +1,21 @@
 import pygame
 from pygame.locals import *
 
+from constants import *
 successes, failures = pygame.init()
 print("Initializing pygame: {0} successes and {1} failures.".format(successes, failures))
 
-size = width, height = 620, 540
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode((screenWidth,screenHeight))
 clock = pygame.time.Clock()
-FPS = 60
-pourcent_ralenti = 0.7
-
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-WHITE = (255, 255, 255)
+# Change le titre de la fenêtre
+pygame.display.set_caption('Slowed')
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((32, 32))
+        widthPerso, heightPerso = 32,32
+        self.image = pygame.Surface((widthPerso, heightPerso))
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()  # Get rect of some size as 'image'.
         self.velocity = [0, 0]
@@ -60,16 +57,28 @@ while running:
                 player.velocity[0] = -200 * dt
             if event.key == pygame.K_d:
                 player.velocity[0] = 200 * dt
+            if temoin.velocity[0] > 0:
+                temoin.velocity[0] = 5
+            else:
+                temoin.velocity[0] = -5
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_w or event.key == pygame.K_s:
                 player.velocity[1] = 0
             elif event.key == pygame.K_a or event.key == pygame.K_d:
                 player.velocity[0] = 0
-            temoin.velocity[0] = temoin.velocity[0] * pourcent_ralenti
+            # Vitesse du témoin à 0 quand le joueur ne se déplace pas
+            if temoin.velocity[0] > 0:
+                temoin.velocity[0] = 1
+            else:
+                temoin.velocity[0] =-1
+    
+    #Collision avec le mur
+    
+
 
     player.update()
         
-    if temoin.rect.left < 0 or temoin.rect.right > width:
+    if temoin.rect.left < 0 or temoin.rect.right > screenWidth:
         temoin.velocity[0] = -temoin.velocity[0]
     temoin.update()
 
