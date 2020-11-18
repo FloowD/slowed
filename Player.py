@@ -21,7 +21,6 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
         self.speed = speed
-
         self.isJumping = False
         self.jumpCount = 10
 
@@ -44,8 +43,6 @@ class Player(pygame.sprite.Sprite):
                 self.speed[0] = 5
             if direction == "SAUT" and self.rect.y+self.rect.height >= screenHeight:
                 self.isJumping = True
-        
-        
         
         
 
