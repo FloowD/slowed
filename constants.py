@@ -1,7 +1,9 @@
 #On met dans ce fichier toutes les constantes dont on aura besoin dans le jeu
 import pygame
 FPS = 60
-screenWidth, screenHeight = 1280, 720
+RATIO = 2
+screenWidth, screenHeight = 1872//RATIO, 1404//RATIO
+#screenWidth, screenHeight = 1280, 720
 BLACK = (0,0,0)
 RED = (255,0,0)
 GREEN = (0,255,0)

@@ -5,29 +5,28 @@ from constants import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self,x=0,y=0,speed=[0,0]):
-        
+
         super().__init__()
-        #Les coordonnées du joueur
-        self.x = x
-        self.y = y
-        
-        #self.image = pygame.image.load(image)
-        #self.rect = self.image.get_rect()
-        widthPerso, heightPerso = 32,32
-        self.image = pygame.Surface((widthPerso, heightPerso))
-        self.image.fill(WHITE)
+        #Les coordonnées de spawn du joueur
+        self.x_origin = x
+        self.y_origin = y
+
+        #widthPerso, heightPerso = 32,32
+        #self.image = pygame.Surface((widthPerso, heightPerso))
+        self.image = pygame.image.load("images/sprites/player.png")
+        self.image = pygame.transform.scale(self.image, (64,64))
+        #self.image.fill(BLACK)
         self.rect = self.image.get_rect()
 
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.rect.x = x
+        self.rect.y = y
         self.speed = speed
         self.isJumping = False
         self.jumpCount = 10
 
         #Variable pour tester si le joueur bouge
         self.isMoving = False
-        
-        
+
 
     def move(self,direction):
         #direction -> paramètre a rentrer en fonction sur quel touche 
@@ -43,8 +42,7 @@ class Player(pygame.sprite.Sprite):
                 self.speed[0] = 5
             if direction == "SAUT" and self.rect.y+self.rect.height >= screenHeight:
                 self.isJumping = True
-        
-        
+
 
     def wallCollision(self):
         #Gère la collision avec les murs
@@ -57,17 +55,13 @@ class Player(pygame.sprite.Sprite):
             self.rect.y = 0
         if self.rect.y >= screenHeight-self.rect.height:
             self.rect.y = screenHeight-self.rect.height
-    
+
+
     def gravity(self):
         #Fonction qui gère la gravité
         self.rect.y += 3.5
-    
-    #def jump(self):
-        #Faut un saut
-     #   isJumping = True
-        
-        
-        
+
+
     def update(self):
         self.rect.move_ip(*self.speed)
 
@@ -78,4 +72,8 @@ class Player(pygame.sprite.Sprite):
             else: 
                 self.jumpCount = 10
                 self.isJumping = False
-        
+
+
+    def respawn(self):
+        self.rect.x = self.x_origin
+        self.rect.y = self.y_origin
