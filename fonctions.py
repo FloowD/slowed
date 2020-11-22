@@ -1,8 +1,9 @@
+import os
 import pygame
 from pygame.locals import *
 from constants import *
 from Player import Player
-#from ennemies import Follower
+from ennemies import Follower
 
 backg = pygame.image.load("images/sprites/background.png")
 backg = pygame.transform.scale(backg, [x//RATIO for x in backg.get_size()])
@@ -15,15 +16,17 @@ spawn_x = 100
 spwan_y = 1200
 
 player = Player(spawn_x,spwan_y,[0,0])
+follower = Follower(500,500,player)
 
 ennemies = []
-#ennemies.append(Follower(500,500))
+ennemies.append(follower)
 
 #Mettre tout les objet dans une liste
 all_sprite_list = pygame.sprite.Group()
 ennemy_list = pygame.sprite.Group()
 
 all_sprite_list.add(player)
+all_sprite_list.add(follower)
 
 for e in ennemies:
     all_sprite_list.add(e)

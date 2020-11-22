@@ -4,11 +4,11 @@ from constants import *
 from Player import *
 import math
 
-class ChasingEnnemy(pygame.sprite.Sprite):
+class Follower(pygame.sprite.Sprite):
     """
     Class de l'ennemi qui chase en permanance le joueur
     """
-    def __init__(self,spwan_x=0,spwan_y=0,target):
+    def __init__(self,spwan_x,spwan_y,target):
         
         super().__init__()
         #Les coordonnées du joueur
@@ -31,8 +31,8 @@ class ChasingEnnemy(pygame.sprite.Sprite):
     
 
     def calcul_angle(self):
-        dest_x = self.rect.centerx
-        dest_y = self.rect.centery
+        dest_x = self.target.rect.centerx
+        dest_y = self.target.rect.centery
 
         x_diff = dest_x - self.rect.centerx
         y_diff = dest_y - self.rect.centery
