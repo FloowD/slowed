@@ -4,12 +4,22 @@ from constants import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self,x=0,y=0,speed=[0,0]):
+    def __init__(self,x,y,speed):
 
         super().__init__()
         #Les coordonnées de spawn du joueur
         self.x_origin = x
         self.y_origin = y
+        self.speed = speed
+
+        # Stores if player is jumping or not.
+        self.isjump = 0     
+    
+        # Force (v) up and mass m.
+        self.v = 8
+        self.m = 6
+
+        self.isMoving = False
 
         #widthPerso, heightPerso = 32,32
         #self.image = pygame.Surface((widthPerso, heightPerso))
@@ -18,30 +28,36 @@ class Player(pygame.sprite.Sprite):
         #self.image.fill(BLACK)
         self.rect = self.image.get_rect()
 
-        self.rect.x = x
-        self.rect.y = y
-        self.speed = speed
-        self.isJumping = False
-        self.jumpCount = 10
-
-        #Variable pour tester si le joueur bouge
-        self.isMoving = False
+        self.rect.x = self.x_origin
+        self.rect.y = self.y_origin
 
 
-    def move(self,direction):
-        #direction -> paramètre a rentrer en fonction sur quel touche 
-        #du clavier on appuie pour se déplacer
-        if not(self.isJumping):
-            if direction == "UP":
-                self.speed[1] = -5
-            if direction == "DOWN":
-                self.speed[1] = 5
-            if direction == "LEFT":
-                self.speed[0] = -5
-            if direction == "RIGHT":
-                self.speed[0] = 5
-            if direction == "SAUT" and self.rect.y+self.rect.height >= screenHeight:
-                self.isJumping = True
+    def moveRight(self):
+        self.rect.x = self.rect.x + self.speed
+ 
+    def moveLeft(self):
+        self.rect.x = self.rect.x - self.speed
+ 
+    def jump(self):
+        self.isjump = 1
+
+    def update(self):
+        if self.isjump:
+            # Calculate force (F). F = mass * velocity
+            
+            F = (self.m * self.v)
+            # Change position
+            self.rect.y = self.rect.y - F
+
+            # Change velocity
+            self.v = self.v - 1
+
+            # If ground is reached, reset variables.
+            if self.rect.y >= 638:
+                self.rect.y = 638
+                self.isjump = 0
+                self.v = 8 
+
 
 
     def wallCollision(self):
@@ -55,23 +71,6 @@ class Player(pygame.sprite.Sprite):
             self.rect.y = 0
         if self.rect.y >= screenHeight-self.rect.height:
             self.rect.y = screenHeight-self.rect.height
-
-
-    def gravity(self):
-        #Fonction qui gère la gravité
-        self.rect.y += 3.5
-
-
-    def update(self):
-        self.rect.move_ip(*self.speed)
-
-        if self.isJumping:
-            if self.jumpCount >= 0:
-                self.rect.y -= (self.jumpCount * abs(self.jumpCount)) * 0.5
-                self.jumpCount -= 1
-            else: 
-                self.jumpCount = 10
-                self.isJumping = False
 
 
     def respawn(self):
