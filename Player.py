@@ -48,55 +48,7 @@ class Player(pygame.sprite.Sprite):
         self.v = 8
         self.isjump = 1
 
-    def update_aled(self, all_platform_list):
-        
-        collision, y_platform, y_width_platform = self.collide(all_platform_list)
-        print("colli",collision)
-        if self.isjump:
-            print("je jump")
-            # Calculate force (F). F = mass * velocity
-            print("pied",(1-y_platform < self.rect.y - self.rect.height<y_platform+1))
-            F = (self.m * self.v)
-            # Change position
-            if not collision :
-                print("je monte")
-                self.rect.y = self.rect.y - F
-            elif not collision and self.rect.y >= y_platform:
-                print("j'arrete de jump")
-                self.isjump = 0
-                self.rect.y = y_width_platform -2
-                self.drop()
-            # Change velocity
-            self.v = self.v - 1
-            if self.v < 0:
-                print("Je tombe")
-
-            # If ground is reached, reset variables.
-            
-            
-            
-            if self.rect.y >= (screenHeight - self.rect.height) and not collision:
-                print("test")
-                self.rect.y = screenHeight - self.rect.height
-                self.isjump = 0
-                self.v = 8
-               
-            
-
-        if collision and (1-y_platform <= self.rect.y + self.rect.height <= y_platform+1):
-            print("tp en haut")
-            self.rect.y = y_platform - self.rect.height -1 #deso je voulais pas mais j'ai craqué mentalement
-            self.isjump = 0
-            self.v = 8
-
-
-        if not self.isjump and not collision:
-            self.drop()
-
-        #On remet le mouvement gauche et droite a False
-        self.isGoingLeft, self.isGoingRight = False, False
-
-
+    
 
     def update(self, all_platform_list):
         #saute

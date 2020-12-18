@@ -57,6 +57,7 @@ platform5 = Platform(870, 550, 66, 152, GREEN)
 platform6 = Platform(600, 120, 45, 20, GREY)
 platform7 = Platform(100, 250, 73, 94, GREY)
 platform8 = Platform(720, 470, 45, 45, GREY)
+platform9 = Platform(440, 380, 45, 60, GREEN)
 all_platform_list = pygame.sprite.Group()
 
 platforms = []
@@ -68,6 +69,7 @@ platforms.append(platform5)
 platforms.append(platform6)
 platforms.append(platform7)
 platforms.append(platform8)
+platforms.append(platform9)
 
 for p in platforms:
     all_platform_list.add(p)
@@ -121,8 +123,8 @@ def game(screen):
             follower.speed = [8,8]
             follower2.speed = [8,8]
         else:
-            follower.speed = [3,3]
-            follower2.speed = [3,3]
+            follower.speed = [2,2]
+            follower2.speed = [2,2]
             
         #On actualise le fond pour voir correctement les affichages
         #screen.blit(backg, [0,0])
