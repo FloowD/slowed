@@ -20,6 +20,10 @@ class Player(pygame.sprite.Sprite):
         self.m = 6
 
         self.isMoving = False
+        self.isdroping = False
+        self.isGoingUp = False
+        self.isGoingLeft = False
+        self.isGoingRight = False
 
         #widthPerso, heightPerso = 32,32
         #self.image = pygame.Surface((widthPerso, heightPerso))
@@ -34,29 +38,132 @@ class Player(pygame.sprite.Sprite):
 
     def moveRight(self):
         self.rect.x = self.rect.x + self.speed
+        self.isGoingRight = True
  
     def moveLeft(self):
         self.rect.x = self.rect.x - self.speed
+        self.isGoingLeft = True
  
     def jump(self):
+        self.v = 8
         self.isjump = 1
 
-    def update(self):
+    def update_aled(self, all_platform_list):
+        
+        collision, y_platform, y_width_platform = self.collide(all_platform_list)
+        print("colli",collision)
         if self.isjump:
+            print("je jump")
             # Calculate force (F). F = mass * velocity
-            
+            print("pied",(1-y_platform < self.rect.y - self.rect.height<y_platform+1))
             F = (self.m * self.v)
             # Change position
-            self.rect.y = self.rect.y - F
-
+            if not collision :
+                print("je monte")
+                self.rect.y = self.rect.y - F
+            elif not collision and self.rect.y >= y_platform:
+                print("j'arrete de jump")
+                self.isjump = 0
+                self.rect.y = y_width_platform -2
+                self.drop()
             # Change velocity
             self.v = self.v - 1
+            if self.v < 0:
+                print("Je tombe")
 
             # If ground is reached, reset variables.
-            if self.rect.y >= 638:
-                self.rect.y = 638
+            
+            
+            
+            if self.rect.y >= (screenHeight - self.rect.height) and not collision:
+                print("test")
+                self.rect.y = screenHeight - self.rect.height
                 self.isjump = 0
-                self.v = 8 
+                self.v = 8
+               
+            
+
+        if collision and (1-y_platform <= self.rect.y + self.rect.height <= y_platform+1):
+            print("tp en haut")
+            self.rect.y = y_platform - self.rect.height -1 #deso je voulais pas mais j'ai craqué mentalement
+            self.isjump = 0
+            self.v = 8
+
+
+        if not self.isjump and not collision:
+            self.drop()
+
+        #On remet le mouvement gauche et droite a False
+        self.isGoingLeft, self.isGoingRight = False, False
+
+
+
+    def update(self, all_platform_list):
+        #saute
+        #v = 8
+        #si v<0 on descend
+        self.verification_vitesse()
+        if not(self.isjump):
+            self.drop()
+
+        else :
+            F = (self.m * self.v)
+            self.rect.y = self.rect.y - F
+            self.v = self.v - 1
+        #Collision avec le mur
+        platform_hit_list = pygame.sprite.spritecollide(self, all_platform_list, False)
+
+        for p in platform_hit_list:
+            if self.isGoingUp:
+                self.rect.top = p.rect.bottom
+                
+            elif self.isdroping:
+                self.rect.bottom = p.rect.top
+                self.isjump = 0
+                self.v = 0
+                
+            elif self.isGoingLeft:
+                self.rect.left = p.rect.right
+                
+            elif self.isGoingRight:
+                self.rect.right = p.rect.left
+                
+        #Gestion de la collision avec les bords de l'écran
+        self.wallCollision()
+
+        
+              
+
+
+        #On remet le mouvement gauche et droite a False
+        self.isGoingLeft, self.isGoingRight = False, False
+
+
+
+    def verification_vitesse(self):
+        if self.v > 0:
+            self.isdroping = False
+            self.isGoingUp = True
+        else:
+            self.isdroping = True
+            self.isGoingUp = False
+
+
+    def drop(self):
+        self.rect.y += 6
+        
+    def collide(self, all_platform_list):
+        collision = False
+        y_platform = 0
+        y_width_platform = 0
+        platform_collision_list = pygame.sprite.spritecollide(self, all_platform_list, False)
+        for platform in platform_collision_list:
+            collision = True
+            y_platform = platform.rect.y
+            y_width_platform = platform.rect.y + platform.rect.width
+
+        return collision,y_platform,y_width_platform
+
 
 
 
@@ -66,11 +173,12 @@ class Player(pygame.sprite.Sprite):
             self.rect.x = 0
         if self.rect.x >= screenWidth-self.rect.height:
             self.rect.x = screenWidth-self.rect.height
-            self.isJumping = False
         if self.rect.y <=0:
             self.rect.y = 0
         if self.rect.y >= screenHeight-self.rect.height:
             self.rect.y = screenHeight-self.rect.height
+            self.isjump = False
+            self.v = 0
 
 
     def respawn(self):

@@ -7,25 +7,34 @@ class Ennemy(pygame.sprite.Sprite):
     """
     Classe Ennemy
     """
-    def __init__(self,x=0,y=0,speed=[0,0]):
-        
+    def __init__(self,spwan_x,spwan_y,max_left,max_right):
+        #max_left : limite a gauche, max_right : limite a droite
         super().__init__()
-        #Les coordonnées du joueur
-        self.x = x
-        self.y = y
         
         #self.image = pygame.image.load(image)
         #self.rect = self.image.get_rect()
         widthPerso, heightPerso = 32,32
         self.image = pygame.Surface((widthPerso, heightPerso))
-        self.image.fill(RED)
+        self.image.fill(BLUE)
         self.rect = self.image.get_rect()
 
-        self.rect.x = self.x
-        self.rect.y = self.y
-        self.speed = speed
+        self.x_origin = spwan_x
+        self.y_origin = spwan_y
+
+        self.max_left= max_left
+        self.max_right = max_right
+        
+        self.rect.x = self.x_origin
+        self.rect.y = self.y_origin
         
     
             
     def update(self):
-        self.rect.move_ip(*self.speed)
+        #change constament de direction
+        self.change_x = 5
+        if self.rect.x > self.max_right:
+            self.change_x = -5
+        if self.rect.x < self.max_left:
+            self.change_x = 5
+
+        self.rect.x += self.change_x

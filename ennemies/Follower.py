@@ -58,7 +58,11 @@ class Follower(pygame.sprite.Sprite):
         # et rect.y pour déplacer le monstre
         self.rect.y = int(self.floating_point_y)
         self.rect.x = int(self.floating_point_x)
+        
 
     def respwan(self):
         self.rect.x = self.x_origin
         self.rect.y = self.y_origin
+        self.floating_point_x = self.rect.centerx
+        self.floating_point_y = self.rect.centery
+       
