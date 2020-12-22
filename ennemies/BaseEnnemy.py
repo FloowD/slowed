@@ -3,7 +3,7 @@ from pygame.locals import *
 from constants import *
 from Player import *
 
-class Ennemy(pygame.sprite.Sprite):
+class BaseEnnemy(pygame.sprite.Sprite):
     """
     Classe Ennemy
     """
@@ -26,12 +26,14 @@ class Ennemy(pygame.sprite.Sprite):
         
         self.rect.x = self.x_origin
         self.rect.y = self.y_origin
+
+        self.change_x = 5
         
     
-            
+        #100, 100, 50, 250
     def update(self):
         #change constament de direction
-        self.change_x = 5
+        
         if self.rect.x > self.max_right:
             self.change_x = -5
         if self.rect.x < self.max_left:

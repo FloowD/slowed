@@ -5,12 +5,13 @@ from pygame.locals import *
 from constants import *
 from Player import Player
 from ennemies import Follower
+from ennemies import BaseEnnemy
 from Platform import *
 from EndPoint import *
 import math
 
-#backg = pygame.image.load("images/sprites/background.png")
-#backg = pygame.transform.scale(backg, [x//RATIO for x in backg.get_size()])
+backg = pygame.image.load("images/sprites/background.png")
+backg = pygame.transform.scale(backg, [x//RATIO for x in backg.get_size()])
 
 #level2 = pygame.image.load("images/levels/level 2.png")
 #level2 = pygame.transform.scale(level2, [x//RATIO for x in level2.get_size()])
@@ -22,14 +23,16 @@ spawn_x = 50
 spwan_y = 1200
 
 player = Player(spawn_x,spwan_y,11)
-follower = Follower(750,600,player)
-follower2 = Follower(100,0,player)
+#follower = Follower(750,600,player)
+#follower2 = Follower(100,0,player)
 endPoint = EndPoint(850, 100)
 
+baseEnnemy = BaseEnnemy(100, 100, 50, 250)
 
 ennemies = []
-ennemies.append(follower)
-ennemies.append(follower2)
+#ennemies.append(follower)
+#ennemies.append(follower2)
+ennemies.append(baseEnnemy)
 
 #Mettre tout les objet dans une liste
 all_sprite_list = pygame.sprite.Group()
@@ -38,9 +41,12 @@ endPoint_Collision = pygame.sprite.Group()
 
 joueur_tout_seul = pygame.sprite.Group()
 joueur_tout_seul.add(player)
-all_sprite_list.add(follower)
-all_sprite_list.add(follower2)
+#all_sprite_list.add(follower)
+#all_sprite_list.add(follower2)
 all_sprite_list.add(endPoint)
+all_sprite_list.add(baseEnnemy)
+
+
 endPoint_Collision.add(endPoint)
 
 for e in ennemies:
@@ -49,29 +55,9 @@ for e in ennemies:
 
 #-------Platform(x, y, width, height, color)-----------
 
-platform1 = Platform(150, 620, 50, 20, GREY)
-platform2 = Platform(300, 520, 100, 20, GREY)
-platform3 = Platform(560, 300, 120, 20, GREY)
-platform4 = Platform(320, 100, 100, 150, GREY)
-platform5 = Platform(870, 550, 66, 152, GREEN)
-platform6 = Platform(600, 120, 45, 20, GREY)
-platform7 = Platform(100, 250, 73, 94, GREY)
-platform8 = Platform(720, 470, 45, 45, GREY)
-platform9 = Platform(440, 380, 45, 60, GREEN)
 all_platform_list = pygame.sprite.Group()
 
-platforms = []
-platforms.append(platform1)
-platforms.append(platform2)
-platforms.append(platform3)
-platforms.append(platform4)
-platforms.append(platform5)
-platforms.append(platform6)
-platforms.append(platform7)
-platforms.append(platform8)
-platforms.append(platform9)
-
-for p in platforms:
+for p in platformNiv1:
     all_platform_list.add(p)
 
 
@@ -79,7 +65,7 @@ for p in platforms:
 def game(screen):
     running = True
     #Pour l'affichage du texte
-    font = pygame.font.Font(None, 25)
+    
     #Pour le chrono
     frame_count = 0
     frame_rate = 60
@@ -119,20 +105,22 @@ def game(screen):
         ## END EVENT
 
         # TODO: DELETE
-        if player.isMoving:
-            follower.speed = [8,8]
-            follower2.speed = [8,8]
-        else:
-            follower.speed = [2,2]
-            follower2.speed = [2,2]
+        #if player.isMoving:
+            #follower.speed = [8,8]
+            #follower2.speed = [8,8]
+        #else:
+            #follower.speed = [2,2]
+            #follower2.speed = [2,2]
             
         #On actualise le fond pour voir correctement les affichages
-        #screen.blit(backg, [0,0])
-        screen.fill(WHITE)
+        screen.blit(backg, [0,0])
+        #screen.fill(WHITE)
         #screen.blit(level2, [0,0])
         
         
-
+        #frame_count = 0
+        #frame_rate = 60
+        #start_time = 90
         #CHRONO
         # --- Timer going up ---
         # Calculate total seconds
@@ -154,15 +142,15 @@ def game(screen):
         
         
 
-        
+       
         
 
         #Gère la collision et le respawn
         ennemy_hit_list = pygame.sprite.spritecollide(player, ennemy_list, False)
         for ennemies in ennemy_hit_list:
             player.respawn()
-            follower.respwan()
-            follower2.respwan()
+            #follower.respwan()
+            #follower2.respwan()
             frame_count = 0
         
             #print(follower.rect.x, follower.rect.y)
@@ -206,7 +194,7 @@ def fin(screen, chrono):
         #Affichage à la fin
         screen.fill(WHITE)
         font = pygame.font.Font(None, 36)
-        text = font.render("Bravo tu as gagné, tu as fini le jeu en "+chrono+"s", 1, (10, 10, 10))
+        text = font.render("Bravo ! Tu as fini le jeu en "+chrono+"s", 1, (10, 10, 10))
         textpos = text.get_rect()
         textpos.centerx = screenWidth /2
         textpos.centery = screenHeight /2
