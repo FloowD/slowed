@@ -104,13 +104,12 @@ def game(screen):
         
         ## END EVENT
 
-        # TODO: DELETE
-        #if player.isMoving:
-            #follower.speed = [8,8]
-            #follower2.speed = [8,8]
-        #else:
-            #follower.speed = [2,2]
-            #follower2.speed = [2,2]
+        #-----Ralentissement pour tout les ennemies si le joueur bouge
+        for e in ennemy_list:
+            if player.isMoving:
+                e.speed = [5,5]
+            else:
+                e.speed = [2,2]
             
         #On actualise le fond pour voir correctement les affichages
         screen.blit(backg, [0,0])

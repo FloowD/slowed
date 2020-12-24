@@ -17,6 +17,9 @@ GREY = (100,100,100)
 score = 0
 font = pygame.font.Font(None, 25)
 
+#Variable pour le niveau
+Niveau = 0
+
 #Tableau de platform par niveau
 platformNiv1 = [
     Platform(150, 620, 50, 20, GREY),
