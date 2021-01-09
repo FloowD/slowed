@@ -7,7 +7,10 @@ class BaseEnnemy(pygame.sprite.Sprite):
     """
     Classe Ennemy
     """
-    def __init__(self,spwan_x,spwan_y,max_left,max_right):
+    def __init__(self,spwan_x,spwan_y,max_left,max_right,case):
+        # CASE
+            # True -> déplacement vertical
+            # False -> déplacement horizontal
         #max_left : limite a gauche, max_right : limite a droite
         super().__init__()
         
@@ -27,16 +30,28 @@ class BaseEnnemy(pygame.sprite.Sprite):
         self.rect.x = self.x_origin
         self.rect.y = self.y_origin
 
+        self.speed = [3,3]
+        self.case = case
+
         self.change_x = 5
+        self.change_y = 5
         
     
         #100, 100, 50, 250
     def update(self):
         #change constament de direction
-        
-        if self.rect.x > self.max_right:
-            self.change_x = -5
-        if self.rect.x < self.max_left:
-            self.change_x = 5
+        if self.case:
+            if self.rect.x > self.max_right:
+                self.change_x = -5
+            if self.rect.x < self.max_left:
+                self.change_x = 5
 
-        self.rect.x += self.change_x
+            self.rect.x += self.change_x
+
+        else:
+            if self.rect.y > self.max_right:
+                self.change_y = -5
+            if self.rect.y < self.max_left:
+                self.change_y = 5
+
+            self.rect.y += self.change_y

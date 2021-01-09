@@ -35,6 +35,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = self.x_origin
         self.rect.y = self.y_origin
 
+        
+
 
     def moveRight(self):
         self.rect.x = self.rect.x + self.speed
@@ -72,7 +74,6 @@ class Player(pygame.sprite.Sprite):
             elif self.isdroping:
                 self.rect.bottom = p.rect.top
                 if p.color == (0,0,255):
-                    print("yo")
                     self.jump()
                 else:
                     self.isjump = 0

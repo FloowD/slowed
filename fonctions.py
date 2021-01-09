@@ -3,6 +3,7 @@ import sys
 import pygame
 from pygame.locals import *
 from constants import *
+from constants_niveau import *
 from Player import Player
 from ennemies import Follower
 from ennemies import BaseEnnemy
@@ -19,53 +20,64 @@ backg = pygame.transform.scale(backg, [x//RATIO for x in backg.get_size()])
 #Fichier qui va être appelé dans le main et lancer les fonctions
 #importantes pour le programme
 
-spawn_x = 50
-spwan_y = 1200
 
-player = Player(spawn_x,spwan_y,11)
 #follower = Follower(750,600,player)
 #follower2 = Follower(100,0,player)
-endPoint = EndPoint(850, 100)
 
-baseEnnemy = BaseEnnemy(100, 100, 50, 250)
 
-ennemies = []
+#baseEnnemy = BaseEnnemy(100, 100, 50, 250)
+
+#ennemies = []
 #ennemies.append(follower)
 #ennemies.append(follower2)
-ennemies.append(baseEnnemy)
+#ennemies.append(baseEnnemy)
+
+#ennemies = [ennemiesNiv1, ennemiesNiv2]
 
 #Mettre tout les objet dans une liste
 all_sprite_list = pygame.sprite.Group()
 ennemy_list = pygame.sprite.Group()
 endPoint_Collision = pygame.sprite.Group()
-
 joueur_tout_seul = pygame.sprite.Group()
-joueur_tout_seul.add(player)
-#all_sprite_list.add(follower)
-#all_sprite_list.add(follower2)
-all_sprite_list.add(endPoint)
-all_sprite_list.add(baseEnnemy)
-
-
-endPoint_Collision.add(endPoint)
-
-for e in ennemies:
-    all_sprite_list.add(e)
-    ennemy_list.add(e)
-
+all_platform_list = pygame.sprite.Group()
 #-------Platform(x, y, width, height, color)-----------
 
-all_platform_list = pygame.sprite.Group()
+#all_sprite_list.add(follower)
+#all_sprite_list.add(follower2)
 
-for p in platformNiv1:
-    all_platform_list.add(p)
+#all_sprite_list.add(baseEnnemy)
+
+
+
+
+#------------------INIT_SPRITE-------------------
+def initSprite():
+    # Spwan Player
+    player = Player(player_spwan[1][0],player_spwan[1][1],11)
+    joueur_tout_seul.add(player)
+
+    # Platform
+    for p in platformNiv2:
+        all_platform_list.add(p)
+
+    # Ennemi
+    for e in ennemiesNiv2:
+        all_sprite_list.add(e)
+        ennemy_list.add(e)
+
+    # EndPoint
+    endPoint = EndPoint(endpoint_spwan[1][0],endpoint_spwan[1][1])
+    all_sprite_list.add(endPoint)
+    endPoint_Collision.add(endPoint)
+
+    return player, endPoint
 
 
 
 def game(screen):
     running = True
     #Pour l'affichage du texte
-    
+    player, endPoint = initSprite() 
     #Pour le chrono
     frame_count = 0
     frame_rate = 60
@@ -157,12 +169,18 @@ def game(screen):
         platform_collision_list = pygame.sprite.spritecollide(player, all_platform_list, False)
         collision_player_fin = pygame.sprite.spritecollide(player, endPoint_Collision, False)
 
+        #-------------------------------------------------------------------------
+        #--------------------------------FIN--------------------------------------
+        #-------------------------------------------------------------------------
         for c in collision_player_fin:
-            fin(screen, chrono)
+            #----------TES UPDATENIVEAU
+            UpdateNiveau(1, all_platform_list, all_sprite_list, player, endPoint)
+            #fin(screen, chrono)
+
+
 
         all_sprite_list.update()
         player.update(all_platform_list)
-         
         
 
         all_platform_list.draw(screen)
@@ -221,4 +239,53 @@ def chronometre(screen):
     textpos.centerx = 50
     textpos.centery = 50
     screen.blit(text, textpos)
+
+
+
+def UpdateNiveau(indiceNiveau, all_platform_list, all_sprite_list, player, endPoint):
+    """Variables
+            -indiceNiveau : int qui indique le niveau : 0 -> menu, 1 -> niv1, ...
+            -all_platform_list : la liste des platform du niveau
+            -player : le sprite joueur
+            -endPoint : la fin du niveau
+    """
+    all_platform_list.empty()
+    all_sprite_list.empty()
+    
+    #--Gere les platformes---
+    for p in all_levels[indiceNiveau]:
+        all_platform_list.add(p)
+
+    
+    #--Gere les ennemies
+    for e in all_ennemies[indiceNiveau]:
+        all_sprite_list.add(e)
+        ennemy_list.add(e)
+
+    #--Gere player---
+    player.x_origin = player_spwan[indiceNiveau][0]
+    player.y_origin = player_spwan[indiceNiveau][1]
+
+    #--Gere endPoint---
+    endPoint.rect.x = endpoint_spwan[indiceNiveau][0]
+    endPoint.rect.y = endpoint_spwan[indiceNiveau][1]
+    all_sprite_list.add(endPoint)
+    
+
+
+    player.respawn()
+
+    #---------------FAIRE TOUT LE CODE AVANT CETTE LIGNE-------------
+    indiceNiveau +=1
+
+    def incrementationNiveau(indiceNiveau):
+        switcher={
+                0:'Menu',
+                1:'Niv1',
+                2:'Niv2',
+                3:'Niv3',
+             }
+        return switcher.get(indiceNiveau + 1)
+
+    
     
