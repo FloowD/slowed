@@ -18,11 +18,3 @@ GREY = (100,100,100)
 score = 0
 font = pygame.font.Font(None, 25)
 
-#Variable pour le niveau
-Niveau = {
-    0 : "menu",
-    1 : "Niveau1",
-    2 : "Niveau2",
-    3 : "Niveau3"
-}
-
