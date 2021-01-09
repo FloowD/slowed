@@ -30,7 +30,7 @@ class BaseEnnemy(pygame.sprite.Sprite):
         self.rect.x = self.x_origin
         self.rect.y = self.y_origin
 
-        self.speed = [3,3]
+        self.speed = [5,5]
         self.case = case
 
         self.change_x = 5
@@ -42,16 +42,18 @@ class BaseEnnemy(pygame.sprite.Sprite):
         #change constament de direction
         if self.case:
             if self.rect.x > self.max_right:
-                self.change_x = -5
+                self.change_x = -self.speed[0]
+            
             if self.rect.x < self.max_left:
-                self.change_x = 5
-
+                self.change_x = self.speed[0]
+                
             self.rect.x += self.change_x
 
         else:
             if self.rect.y > self.max_right:
-                self.change_y = -5
+                self.change_y = - self.speed[1]
+               
             if self.rect.y < self.max_left:
-                self.change_y = 5
+                self.change_y = self.speed[1]
 
             self.rect.y += self.change_y

@@ -68,23 +68,27 @@ class Player(pygame.sprite.Sprite):
         platform_hit_list = pygame.sprite.spritecollide(self, all_platform_list, False)
 
         for p in platform_hit_list:
-            if self.isGoingUp:
-                self.rect.top = p.rect.bottom
+            if p.color != (255,0,0):
+                #si la platform est rouge -> dead
+                if self.isGoingUp:
+                    self.rect.top = p.rect.bottom
                 
-            elif self.isdroping:
-                self.rect.bottom = p.rect.top
-                if p.color == (0,0,255):
-                    self.jump()
-                else:
-                    self.isjump = 0
-                    self.v = 0
+                elif self.isdroping:
+                    self.rect.bottom = p.rect.top
+                    if p.color == (0,0,255):
+                        self.jump()
+                    else:
+                        self.isjump = 0
+                        self.v = 0
                 
-            elif self.isGoingLeft:
-                self.rect.left = p.rect.right
+                elif self.isGoingLeft:
+                    self.rect.left = p.rect.right
                 
-            elif self.isGoingRight:
-                self.rect.right = p.rect.left
-                
+                elif self.isGoingRight:
+                    self.rect.right = p.rect.left
+            
+            else:
+                self.respawn()
         #Gestion de la collision avec les bords de l'écran
         self.wallCollision()
 
