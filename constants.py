@@ -16,5 +16,5 @@ WHITE = (255,255,255)
 GREY = (100,100,100)
 
 score = 0
-font = pygame.font.Font(None, 25)
+font = pygame.font.Font(None, 27)
 
