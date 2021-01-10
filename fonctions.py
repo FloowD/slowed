@@ -53,20 +53,20 @@ all_platform_list = pygame.sprite.Group()
 #------------------INIT_SPRITE-------------------
 def initSprite():
     # Spwan Player
-    player = Player(player_spwan[1][0],player_spwan[1][1],11)
+    player = Player(player_spwan[2][0],player_spwan[2][1],11)
     joueur_tout_seul.add(player)
 
     # Platform
-    for p in platformNiv2:
+    for p in platformNiv3:
         all_platform_list.add(p)
 
     # Ennemi
-    for e in ennemiesNiv2:
+    for e in ennemiesNiv3:
         all_sprite_list.add(e)
         ennemy_list.add(e)
 
     # EndPoint
-    endPoint = EndPoint(endpoint_spwan[1][0],endpoint_spwan[1][1])
+    endPoint = EndPoint(endpoint_spwan[2][0],endpoint_spwan[2][1])
     all_sprite_list.add(endPoint)
     endPoint_Collision.add(endPoint)
 
@@ -128,21 +128,10 @@ def game(screen):
         #screen.fill(WHITE)
         #screen.blit(level2, [0,0])
         
-        
-        #frame_count = 0
-        #frame_rate = 60
-        #start_time = 90
-        #CHRONO
-        # --- Timer going up ---
-        # Calculate total seconds
-        total_seconds = frame_count // frame_rate
- 
-        # Divide by 60 to get total minutes
-        minutes = total_seconds // 60
- 
-        # Use modulus (remainder) to get seconds
-        seconds = total_seconds % 60
- 
+    
+        #On récupère le temps correspondant
+        minutes, seconds = doubleChrono(frame_count, frame_rate, start_time, False)
+
         # Use python string formatting to format in leading zeros
         output_string = "Time :{0:02}:{1:02}".format(minutes, seconds)
         chrono = "{0:02}:{1:02}".format(minutes, seconds)
@@ -286,6 +275,39 @@ def UpdateNiveau(indiceNiveau, all_platform_list, all_sprite_list, player, endPo
                 3:'Niv3',
              }
         return switcher.get(indiceNiveau + 1)
+
+
+def doubleChrono(frame_count, frame_rate, start_time, case):
+    """ case ->boolean pour choisir entre chrono montant ou descandant
+            True -> temps montant
+            False -> temps descendant
+    """
+    if case:
+        # --- Timer going up ---
+        # Calculate total seconds
+        total_seconds = frame_count // frame_rate
+ 
+        # Divide by 60 to get total minutes
+        minutes = total_seconds // 60
+ 
+        # Use modulus (remainder) to get seconds
+        seconds = total_seconds % 60
+
+    else:
+        # --- Timer going up ---
+        # Calculate total seconds
+        total_seconds = start_time - (frame_count // frame_rate)
+        if total_seconds < 0:
+            total_seconds = 0
+ 
+        # Divide by 60 to get total minutes
+        minutes = total_seconds // 60
+ 
+        # Use modulus (remainder) to get seconds
+        seconds = total_seconds % 60
+
+    return minutes, seconds
+
 
     
     
