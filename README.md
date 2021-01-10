@@ -5,5 +5,5 @@ Ainsi, si le joueur ne bouge pas les ennemies présents dans le niveau se retrou
 
 # Mode d'emploi
   * Installer python et pygame
-  * Lancer le fichier `<main.py>`
+  * Lancer le fichier `main.py`
   
