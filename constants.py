@@ -14,7 +14,6 @@ GREEN = (0,255,0)
 BLUE = (0,0,255)
 WHITE = (255,255,255)
 GREY = (100,100,100)
-
 score = 0
 font = pygame.font.Font(None, 27)
 

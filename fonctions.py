@@ -66,7 +66,7 @@ def initSprite():
         ennemy_list.add(e)
 
     # EndPoint
-    endPoint = EndPoint(endpoint_spwan[0][0],endpoint_spwan[0][0], endpoint_spwan[2])
+    endPoint = EndPoint(endpoint_spwan[0][0],endpoint_spwan[0][1])
     all_sprite_list.add(endPoint)
     endPoint_Collision.add(endPoint)
 
@@ -81,7 +81,7 @@ def game(screen, modeJeu):
     #Pour le chrono
     frame_count = 0
     frame_rate = 60
-    start_time = 25
+    start_time = 45
     changementNiveau = 0
     while running:
 
@@ -98,7 +98,8 @@ def game(screen, modeJeu):
             player.jump()
  
         if (keys[K_ESCAPE]):
-            running = False    
+            pygame.quit()
+            sys.exit()  
 
         ## EVENT
         for event in pygame.event.get():
@@ -116,7 +117,7 @@ def game(screen, modeJeu):
                 player.isMoving = False
         
         ## END EVENT
-
+        #print("finir de fonction : "+Finir)
         #-----Ralentissement pour tout les ennemies si le joueur bouge
         for e in ennemy_list:
             if player.isMoving:
@@ -131,7 +132,7 @@ def game(screen, modeJeu):
         
     
         #On récupère le temps correspondant
-        minutes, seconds = doubleChrono(frame_count, frame_rate, start_time, modeJeu)
+        minutes, seconds= doubleChrono(frame_count, frame_rate, start_time,  modeJeu)
 
         # Use python string formatting to format in leading zeros
         output_string = "Time :{0:02}:{1:02}".format(minutes, seconds)
@@ -167,10 +168,11 @@ def game(screen, modeJeu):
         for c in collision_player_fin:
             #----------TES UPDATENIVEAU--------
             changementNiveau += 1
-            UpdateNiveau(changementNiveau, all_platform_list, all_sprite_list, player, endPoint)
-            #fin(screen, chrono)
-            #
-            print(changementNiveau)
+            if changementNiveau == 3:
+                fin(screen, chrono)
+            else:
+                UpdateNiveau(changementNiveau, all_platform_list, all_sprite_list, player, endPoint, modeJeu)
+            
            
             
 
@@ -192,9 +194,6 @@ def game(screen, modeJeu):
         pygame.time.Clock().tick(FPS)
 
 
-    
-    print("Fin du jeu !")
-    #quit()
 
 def fin(screen, chrono):
     running = True
@@ -239,7 +238,7 @@ def chronometre(screen):
 
 
 
-def UpdateNiveau(indiceNiveau, all_platform_list, all_sprite_list, player, endPoint):
+def UpdateNiveau(indiceNiveau, all_platform_list, all_sprite_list, player, endPoint, modeJeu):
     """Variables
             -indiceNiveau : int qui indique le niveau : 0 -> menu, 1 -> niv1, ...
             -all_platform_list : la liste des platform du niveau
@@ -248,6 +247,7 @@ def UpdateNiveau(indiceNiveau, all_platform_list, all_sprite_list, player, endPo
     """
     all_platform_list.empty()
     all_sprite_list.empty()
+    ennemy_list.empty()
     
     #--Gere les platformes---
     for p in all_levels[indiceNiveau]:
@@ -264,12 +264,18 @@ def UpdateNiveau(indiceNiveau, all_platform_list, all_sprite_list, player, endPo
     player.y_origin = player_spwan[indiceNiveau][1]
 
     #--Gere endPoint---
-    endPoint.rect.x = endpoint_spwan[indiceNiveau][0]
-    endPoint.rect.y = endpoint_spwan[indiceNiveau][1]
+    if indiceNiveau == 2:
+        endPoint.rect.x = endpoint_spwan[2][0][0]
+        endPoint.rect.x = endpoint_spwan[2][0][1]
+        endPoint.tabPosition = endpoint_spwan[2]
+    else:
+        endPoint.rect.x = endpoint_spwan[indiceNiveau][0]
+        endPoint.rect.y = endpoint_spwan[indiceNiveau][1]
+
     all_sprite_list.add(endPoint)
+
+    #Rajouter du temps dans le mode contre la montre
     
-
-
     player.respawn()
 
     #---------------FAIRE TOUT LE CODE AVANT CETTE LIGNE-------------

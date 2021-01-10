@@ -53,7 +53,7 @@ player_spwan = ((50, 1200), (800, 1100), (400, 1200))
 endpoint_spwan = ((850,150), (15,280), [(50,100), (850,600), (720,110)])
 #--------------- FIN CONSTANTS JOUEUR + FIN----------------
 
-player = Player(player_spwan[2][0],player_spwan[2][1],11)
+player = Player(player_spwan[0][0],player_spwan[0][1],11)
 
 #--------------- DEBUT CONSTANTS ENNEMIES----------------
 ennemiesNiv1 = [

@@ -2,6 +2,8 @@ import sys
 import pygame as pg
 from constants import font as slowed_font
 from constants import BLACK, RED, GREEN, BLUE, WHITE, GREY, FPS
+from constants_niveau import *
+from fonctions import *
 
 class Button():
 
@@ -40,8 +42,6 @@ def main_menu(screen):
     contremontre = Button(WIDTH // 2, HEIGHT // 2 , 'Contre la montre', RED)
     quitter = Button(WIDTH // 2, HEIGHT // 2 + 100, 'Quitter', GREY)
 
-    click = False
-
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -49,14 +49,18 @@ def main_menu(screen):
                 sys.exit()
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                 click = True
-
+        #print(Finir)
         mx, my = pg.mouse.get_pos()
 
         if classique.hoover(mx, my):
             if click:
+                clean()
+                player.respawn()
                 game(screen, True)
         if contremontre.hoover(mx, my):
             if click:
+                clean()
+                player.respawn()
                 game(screen, False)
         if quitter.hoover(mx, my):
             if click:
@@ -79,3 +83,9 @@ def main_menu(screen):
         screen.blit(textSurface, textRect)
         pg.display.update()
         pg.time.Clock().tick(FPS)
+
+
+def clean():
+    all_platform_list.empty()
+    all_sprite_list.empty()
+    ennemy_list.empty()

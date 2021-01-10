@@ -5,7 +5,7 @@ from Player import *
 from time import time
 
 class EndPoint(pygame.sprite.Sprite):
-    def __init__(self,x,y,tabPosition):
+    def __init__(self,x,y,tabPosition = []):
         #tabPosition -> tab de tuple pour les coordonnées 
         #intervalle -> temps sépratant chaque tp
         super().__init__()
