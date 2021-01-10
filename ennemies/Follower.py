@@ -13,18 +13,18 @@ class Follower(pygame.sprite.Sprite):
         super().__init__()
         #Les coordonnées du joueur
         
-        #self.image = pygame.image.load(image)
-        #self.rect = self.image.get_rect()
-        widthPerso, heightPerso = 32,32
-        self.image = pygame.Surface((widthPerso, heightPerso))
-        self.image.fill(RED)
+        self.image = pygame.image.load("images/sprites/follower.png")
+        self.image = pygame.transform.scale(self.image, (64,64))
         self.rect = self.image.get_rect()
 
         self.target = target
-        self.rect.x = spwan_x
-        self.rect.y = spwan_y
+        self.x_origin = spwan_x
+        self.y_origin = spwan_y
         
-        self.speed = [4,4]
+        self.rect.x = self.x_origin
+        self.rect.y = self.y_origin
+        
+        self.speed = [7,7]
 
         self.floating_point_x = self.rect.centerx
         self.floating_point_y = self.rect.centery
@@ -55,3 +55,11 @@ class Follower(pygame.sprite.Sprite):
         # et rect.y pour déplacer le monstre
         self.rect.y = int(self.floating_point_y)
         self.rect.x = int(self.floating_point_x)
+        
+
+    def respawn(self):
+        self.rect.x = self.x_origin
+        self.rect.y = self.y_origin
+        self.floating_point_x = self.rect.centerx
+        self.floating_point_y = self.rect.centery
+       
