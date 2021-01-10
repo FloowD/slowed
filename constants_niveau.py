@@ -30,7 +30,6 @@ platformNiv2 = [
     Platform(10, 500, 70, 200, GREEN),
     Platform(100, 80, 550, 30, GREY),
     Platform(10, 200, 120, 30, GREY)
-    #Platform(369, 425, 256, 854, BLUE)
 ]
 
 platformNiv3 = [
@@ -56,9 +55,8 @@ endpoint_spwan = ((850,150), (15,280), [(50,100), (850,600), (720,110)])
 player = Player(player_spwan[0][0],player_spwan[0][1],11)
 
 #--------------- DEBUT CONSTANTS ENNEMIES----------------
-ennemiesNiv1 = [
-    #BaseEnnemy(100, 100, 50, 250, True), 
-    #Follower(750,600,player)
+ennemiesNiv1 = [ 
+    Follower(750,600,player)
 ]
 
 ennemiesNiv2 = [
@@ -70,7 +68,7 @@ ennemiesNiv2 = [
 ]
 
 ennemiesNiv3 = [
-    #Follower(750, 600, player),
+    Follower(750, 600, player),
     BaseEnnemy(800, 470, 760, 900, True),
     BaseEnnemy(300, 200, 300, 460, True)
 ]

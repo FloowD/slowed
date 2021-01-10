@@ -17,6 +17,9 @@ backg = pygame.transform.scale(backg, [x//RATIO for x in backg.get_size()])
 gameOver = pygame.image.load("images/sprites/game_over.png")
 gameOver = pygame.transform.scale(gameOver, [x//RATIO for x in gameOver.get_size()])
 
+fond_victoire = pygame.image.load("images/sprites/bkg_win.png")
+fond_victoire = pygame.transform.scale(fond_victoire, [x//RATIO for x in fond_victoire.get_size()])
+
 
 
 #Mettre tout les objet dans une liste
@@ -174,7 +177,7 @@ def fin(screen, chrono, modeJeu):
                 pygame.quit()
                 sys.exit()
         #Affichage à la fin
-        screen.fill(WHITE)
+        screen.blit(fond_victoire, [0,0])
         font = pygame.font.Font(None, 36)
         if modeJeu:
             text = font.render("Bravo ! Tu as fini le jeu en "+chrono+"s", 1, (10, 10, 10))

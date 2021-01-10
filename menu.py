@@ -1,5 +1,6 @@
 import sys
 import pygame as pg
+from pygame.locals import *
 from constants import font as slowed_font
 from constants import BLACK, RED, GREEN, BLUE, WHITE, GREY, FPS
 from constants_niveau import *
@@ -41,6 +42,8 @@ def main_menu(screen):
     classique = Button(WIDTH // 2, HEIGHT // 2 - 100, 'Classique', BLUE)
     contremontre = Button(WIDTH // 2, HEIGHT // 2 , 'Contre la montre', RED)
     quitter = Button(WIDTH // 2, HEIGHT // 2 + 100, 'Quitter', GREY)
+    bkg = pygame.image.load("images/sprites/bkg.png")
+    bkg = pygame.transform.scale(bkg, [x//RATIO for x in bkg.get_size()])
     click = False
     while True:
         for event in pg.event.get():
@@ -67,7 +70,7 @@ def main_menu(screen):
                 pg.quit()
                 sys.exit()
 
-        screen.fill((0,0,0))
+        screen.blit(bkg, [0,0])
 
         myfont = pg.font.Font(None, 40)
         textSurface = myfont.render("SLOWED", True, (255,255,255))
