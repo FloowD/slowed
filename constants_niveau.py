@@ -42,7 +42,7 @@ platformNiv3 = [
     Platform(800, 500, 30, 200, RED),
     Platform(0, 280, 125, 30, RED),
     Platform(670, 350, 70, 120, GREEN),
-    Platform(600, )
+    Platform(500, 200, 170, 30, RED)
 ]
 
 all_levels = [platformNiv1, platformNiv2, platformNiv3]

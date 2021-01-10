@@ -57,16 +57,16 @@ def initSprite():
     joueur_tout_seul.add(player)
 
     # Platform
-    for p in platformNiv3:
+    for p in platformNiv1:
         all_platform_list.add(p)
 
     # Ennemi
-    for e in ennemiesNiv3:
+    for e in ennemiesNiv1:
         all_sprite_list.add(e)
         ennemy_list.add(e)
 
     # EndPoint
-    endPoint = EndPoint(endpoint_spwan[2][0][0],endpoint_spwan[2][0][1], endpoint_spwan[2])
+    endPoint = EndPoint(endpoint_spwan[0][0],endpoint_spwan[0][0], endpoint_spwan[2])
     all_sprite_list.add(endPoint)
     endPoint_Collision.add(endPoint)
 
@@ -74,7 +74,7 @@ def initSprite():
 
 
 
-def game(screen):
+def game(screen, modeJeu):
     running = True
     #Pour l'affichage du texte
     player, endPoint = initSprite() 
@@ -131,7 +131,7 @@ def game(screen):
         
     
         #On récupère le temps correspondant
-        minutes, seconds = doubleChrono(frame_count, frame_rate, start_time, False)
+        minutes, seconds = doubleChrono(frame_count, frame_rate, start_time, modeJeu)
 
         # Use python string formatting to format in leading zeros
         output_string = "Time :{0:02}:{1:02}".format(minutes, seconds)
