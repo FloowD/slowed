@@ -9,5 +9,5 @@ J'espère qu'il vous plairons et que vous essaierai de vous améliorer au jeu !
 
 # Mode d'emploi
   * Installer python et pygame
-  * Lancer le fichier `<main.py>`
+  * Lancer le fichier `main.py`
   
