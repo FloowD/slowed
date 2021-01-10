@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from constants import *
+from Player import *
 from Platform import *
 from ennemies import Follower
 from ennemies import BaseEnnemy
@@ -33,11 +34,26 @@ platformNiv2 = [
 ]
 
 platformNiv3 = [
-    Platform(200, 200, 150, 50, GREY)
+    Platform(160, 200, 150, 50, GREY),
+    Platform(0, 500, 120, 30, GREY),
+    Platform(0, 400, 120, 30, GREY),
+    Platform(300, 400, 80, 30, GREY),
+    Platform(500, 520, 80, 30, GREY),
+    Platform(800, 500, 30, 200, RED),
+    Platform(0, 280, 125, 30, RED),
+    Platform(670, 350, 70, 120, GREEN),
+    Platform(600, )
 ]
 
 all_levels = [platformNiv1, platformNiv2, platformNiv3]
 #--------------- FIN CONSTANTS PLATFORM----------------
+
+#--------------- DEBUT CONSTANTS JOUEUR + FIN----------------
+player_spwan = ((50, 1200), (800, 1100), (400, 1200))
+endpoint_spwan = ((850,150), (15,280), [(50,100), (850,600), (720,110)])
+#--------------- FIN CONSTANTS JOUEUR + FIN----------------
+
+player = Player(player_spwan[2][0],player_spwan[2][1],11)
 
 #--------------- DEBUT CONSTANTS ENNEMIES----------------
 ennemiesNiv1 = [
@@ -52,12 +68,10 @@ ennemiesNiv2 = [
     BaseEnnemy(250, 238, 320, 470, True),
 ]
 
-ennemiesNiv3 = []
+ennemiesNiv3 = [
+    #Follower(750, 600, player),
+    BaseEnnemy(800, 470, 760, 900, True)
+]
 
 all_ennemies = [ennemiesNiv1, ennemiesNiv2, ennemiesNiv3]
 #--------------- FIN CONSTANTS ENNEMIES----------------
-
-#--------------- DEBUT CONSTANTS JOUEUR + FIN----------------
-player_spwan = ((50, 1200), (800, 1100), (400, 800))
-endpoint_spwan = ((850,150), (15,280), (800,800))
-#--------------- FIN CONSTANTS JOUEUR + FIN----------------

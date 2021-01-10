@@ -57,3 +57,7 @@ class BaseEnnemy(pygame.sprite.Sprite):
                 self.change_y = self.speed[1]
 
             self.rect.y += self.change_y
+
+    def respawn(self):
+        self.rect.x = self.x_origin
+        self.rect.y = self.y_origin

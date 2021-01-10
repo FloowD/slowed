@@ -53,7 +53,7 @@ all_platform_list = pygame.sprite.Group()
 #------------------INIT_SPRITE-------------------
 def initSprite():
     # Spwan Player
-    player = Player(player_spwan[2][0],player_spwan[2][1],11)
+    #player = Player(player_spwan[2][0],player_spwan[2][1],11)
     joueur_tout_seul.add(player)
 
     # Platform
@@ -66,7 +66,7 @@ def initSprite():
         ennemy_list.add(e)
 
     # EndPoint
-    endPoint = EndPoint(endpoint_spwan[2][0],endpoint_spwan[2][1])
+    endPoint = EndPoint(endpoint_spwan[2][0][0],endpoint_spwan[2][0][1], endpoint_spwan[2])
     all_sprite_list.add(endPoint)
     endPoint_Collision.add(endPoint)
 
@@ -81,7 +81,8 @@ def game(screen):
     #Pour le chrono
     frame_count = 0
     frame_rate = 60
-    start_time = 90
+    start_time = 25
+    changementNiveau = 0
     while running:
 
     #Déplacement du joueur
@@ -149,6 +150,8 @@ def game(screen):
         ennemy_hit_list = pygame.sprite.spritecollide(player, ennemy_list, False)
         for ennemies in ennemy_hit_list:
             player.respawn()
+            for e in ennemy_list:
+                e.respawn()
             #follower.respwan()
             #follower2.respwan()
             frame_count = 0
@@ -162,9 +165,14 @@ def game(screen):
         #--------------------------------FIN--------------------------------------
         #-------------------------------------------------------------------------
         for c in collision_player_fin:
-            #----------TES UPDATENIVEAU
-            UpdateNiveau(1, all_platform_list, all_sprite_list, player, endPoint)
+            #----------TES UPDATENIVEAU--------
+            changementNiveau += 1
+            UpdateNiveau(changementNiveau, all_platform_list, all_sprite_list, player, endPoint)
             #fin(screen, chrono)
+            #
+            print(changementNiveau)
+           
+            
 
 
 

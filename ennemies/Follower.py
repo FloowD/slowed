@@ -60,7 +60,7 @@ class Follower(pygame.sprite.Sprite):
         self.rect.x = int(self.floating_point_x)
         
 
-    def respwan(self):
+    def respawn(self):
         self.rect.x = self.x_origin
         self.rect.y = self.y_origin
         self.floating_point_x = self.rect.centerx
