@@ -14,12 +14,13 @@ class BaseEnnemy(pygame.sprite.Sprite):
         #max_left : limite a gauche, max_right : limite a droite
         super().__init__()
         
-        #self.image = pygame.image.load(image)
-        #self.rect = self.image.get_rect()
-        widthPerso, heightPerso = 32,32
-        self.image = pygame.Surface((widthPerso, heightPerso))
-        self.image.fill(BLUE)
+        self.image = pygame.image.load("images/sprites/kube.png")
+        self.image = pygame.transform.scale(self.image, (32,32))
         self.rect = self.image.get_rect()
+        #widthPerso, heightPerso = 32,32
+        #self.image = pygame.Surface((widthPerso, heightPerso))
+        #self.image.fill(BLUE)
+        #self.rect = self.image.get_rect()
 
         self.x_origin = spwan_x
         self.y_origin = spwan_y
@@ -37,7 +38,7 @@ class BaseEnnemy(pygame.sprite.Sprite):
         self.change_y = 5
         
     
-        #100, 100, 50, 250
+        
     def update(self):
         #change constament de direction
         if self.case:

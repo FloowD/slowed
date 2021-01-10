@@ -25,8 +25,6 @@ class Player(pygame.sprite.Sprite):
         self.isGoingLeft = False
         self.isGoingRight = False
 
-        #widthPerso, heightPerso = 32,32
-        #self.image = pygame.Surface((widthPerso, heightPerso))
         self.image = pygame.image.load("images/sprites/player.png")
         self.image = pygame.transform.scale(self.image, (64,64))
         #self.image.fill(BLACK)
@@ -91,10 +89,6 @@ class Player(pygame.sprite.Sprite):
                 self.respawn()
         #Gestion de la collision avec les bords de l'écran
         self.wallCollision()
-
-        
-              
-
 
         #On remet le mouvement gauche et droite a False
         self.isGoingLeft, self.isGoingRight = False, False

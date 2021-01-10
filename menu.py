@@ -41,7 +41,7 @@ def main_menu(screen):
     classique = Button(WIDTH // 2, HEIGHT // 2 - 100, 'Classique', BLUE)
     contremontre = Button(WIDTH // 2, HEIGHT // 2 , 'Contre la montre', RED)
     quitter = Button(WIDTH // 2, HEIGHT // 2 + 100, 'Quitter', GREY)
-
+    click = False
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:

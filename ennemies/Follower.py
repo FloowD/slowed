@@ -13,11 +13,8 @@ class Follower(pygame.sprite.Sprite):
         super().__init__()
         #Les coordonnées du joueur
         
-        #self.image = pygame.image.load(image)
-        #self.rect = self.image.get_rect()
-        widthPerso, heightPerso = 32,32
-        self.image = pygame.Surface((widthPerso, heightPerso))
-        self.image.fill(RED)
+        self.image = pygame.image.load("images/sprites/follower.png")
+        self.image = pygame.transform.scale(self.image, (64,64))
         self.rect = self.image.get_rect()
 
         self.target = target

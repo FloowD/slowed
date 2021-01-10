@@ -57,7 +57,7 @@ player = Player(player_spwan[0][0],player_spwan[0][1],11)
 
 #--------------- DEBUT CONSTANTS ENNEMIES----------------
 ennemiesNiv1 = [
-    BaseEnnemy(100, 100, 50, 250, True) 
+    #BaseEnnemy(100, 100, 50, 250, True), 
     #Follower(750,600,player)
 ]
 
@@ -66,11 +66,13 @@ ennemiesNiv2 = [
     BaseEnnemy(400, 468, 400, 600, True),
     BaseEnnemy(600, 250, 200, 350, False),
     BaseEnnemy(250, 238, 320, 470, True),
+    BaseEnnemy(140, 580, 140, 270, True)
 ]
 
 ennemiesNiv3 = [
     #Follower(750, 600, player),
-    BaseEnnemy(800, 470, 760, 900, True)
+    BaseEnnemy(800, 470, 760, 900, True),
+    BaseEnnemy(300, 200, 300, 460, True)
 ]
 
 all_ennemies = [ennemiesNiv1, ennemiesNiv2, ennemiesNiv3]

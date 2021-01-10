@@ -14,25 +14,10 @@ import math
 backg = pygame.image.load("images/sprites/background.png")
 backg = pygame.transform.scale(backg, [x//RATIO for x in backg.get_size()])
 
-#level2 = pygame.image.load("images/levels/level 2.png")
-#level2 = pygame.transform.scale(level2, [x//RATIO for x in level2.get_size()])
-
-#Fichier qui va être appelé dans le main et lancer les fonctions
-#importantes pour le programme
+gameOver = pygame.image.load("images/sprites/game_over.png")
+gameOver = pygame.transform.scale(gameOver, [x//RATIO for x in gameOver.get_size()])
 
 
-#follower = Follower(750,600,player)
-#follower2 = Follower(100,0,player)
-
-
-#baseEnnemy = BaseEnnemy(100, 100, 50, 250)
-
-#ennemies = []
-#ennemies.append(follower)
-#ennemies.append(follower2)
-#ennemies.append(baseEnnemy)
-
-#ennemies = [ennemiesNiv1, ennemiesNiv2]
 
 #Mettre tout les objet dans une liste
 all_sprite_list = pygame.sprite.Group()
@@ -41,13 +26,6 @@ endPoint_Collision = pygame.sprite.Group()
 joueur_tout_seul = pygame.sprite.Group()
 all_platform_list = pygame.sprite.Group()
 #-------Platform(x, y, width, height, color)-----------
-
-#all_sprite_list.add(follower)
-#all_sprite_list.add(follower2)
-
-#all_sprite_list.add(baseEnnemy)
-
-
 
 
 #------------------INIT_SPRITE-------------------
@@ -76,12 +54,11 @@ def initSprite():
 
 def game(screen, modeJeu):
     running = True
-    #Pour l'affichage du texte
     player, endPoint = initSprite() 
     #Pour le chrono
     frame_count = 0
     frame_rate = 60
-    start_time = 45
+    start_time = 5
     changementNiveau = 0
     while running:
 
@@ -117,7 +94,6 @@ def game(screen, modeJeu):
                 player.isMoving = False
         
         ## END EVENT
-        #print("finir de fonction : "+Finir)
         #-----Ralentissement pour tout les ennemies si le joueur bouge
         for e in ennemy_list:
             if player.isMoving:
@@ -127,12 +103,9 @@ def game(screen, modeJeu):
             
         #On actualise le fond pour voir correctement les affichages
         screen.blit(backg, [0,0])
-        #screen.fill(WHITE)
-        #screen.blit(level2, [0,0])
-        
     
         #On récupère le temps correspondant
-        minutes, seconds= doubleChrono(frame_count, frame_rate, start_time,  modeJeu)
+        minutes, seconds= doubleChrono(screen, frame_count, frame_rate, start_time,  modeJeu)
 
         # Use python string formatting to format in leading zeros
         output_string = "Time :{0:02}:{1:02}".format(minutes, seconds)
@@ -153,11 +126,10 @@ def game(screen, modeJeu):
             player.respawn()
             for e in ennemy_list:
                 e.respawn()
-            #follower.respwan()
-            #follower2.respwan()
-            frame_count = 0
+
+            if changementNiveau == 0:
+                frame_count = 0
         
-            #print(follower.rect.x, follower.rect.y)
         
         platform_collision_list = pygame.sprite.spritecollide(player, all_platform_list, False)
         collision_player_fin = pygame.sprite.spritecollide(player, endPoint_Collision, False)
@@ -169,14 +141,11 @@ def game(screen, modeJeu):
             #----------TES UPDATENIVEAU--------
             changementNiveau += 1
             if changementNiveau == 3:
-                fin(screen, chrono)
+                fin(screen, chrono, modeJeu)
             else:
                 UpdateNiveau(changementNiveau, all_platform_list, all_sprite_list, player, endPoint, modeJeu)
             
            
-            
-
-
 
         all_sprite_list.update()
         player.update(all_platform_list)
@@ -195,7 +164,7 @@ def game(screen, modeJeu):
 
 
 
-def fin(screen, chrono):
+def fin(screen, chrono, modeJeu):
     running = True
     while running:
         for event in pygame.event.get():
@@ -207,7 +176,10 @@ def fin(screen, chrono):
         #Affichage à la fin
         screen.fill(WHITE)
         font = pygame.font.Font(None, 36)
-        text = font.render("Bravo ! Tu as fini le jeu en "+chrono+"s", 1, (10, 10, 10))
+        if modeJeu:
+            text = font.render("Bravo ! Tu as fini le jeu en "+chrono+"s", 1, (10, 10, 10))
+        else:
+            text = font.render("Bravo ! Tu as fini le jeu dans le temps imparti !", 1, (10, 10, 10))
         textpos = text.get_rect()
         textpos.centerx = screenWidth /2
         textpos.centery = screenHeight /2
@@ -215,26 +187,6 @@ def fin(screen, chrono):
 
         pygame.display.update()
         pygame.time.Clock().tick(FPS)
-
-
-def chronometre(screen):
-    """Chronomètre pour le speedrun
-    """
-    start_ticks=pygame.time.get_ticks() #starter tick
-    seconds= (pygame.time.get_ticks()-start_ticks)/1000 #calculate how many seconds
-    minute = 0
-    point =":"
-    if seconds>60: # if more than 10 seconds close the game
-        minute += 1
-        seconds = 0
-    temps = (str(minute)+point+str(seconds))
-    
-    font = pygame.font.Font(None, 36)
-    text = font.render(temps, 1, (10, 10, 10))
-    textpos = text.get_rect()
-    textpos.centerx = 50
-    textpos.centery = 50
-    screen.blit(text, textpos)
 
 
 
@@ -273,25 +225,15 @@ def UpdateNiveau(indiceNiveau, all_platform_list, all_sprite_list, player, endPo
         endPoint.rect.y = endpoint_spwan[indiceNiveau][1]
 
     all_sprite_list.add(endPoint)
-
-    #Rajouter du temps dans le mode contre la montre
     
     player.respawn()
 
     #---------------FAIRE TOUT LE CODE AVANT CETTE LIGNE-------------
     indiceNiveau +=1
 
-    def incrementationNiveau(indiceNiveau):
-        switcher={
-                0:'Menu',
-                1:'Niv1',
-                2:'Niv2',
-                3:'Niv3',
-             }
-        return switcher.get(indiceNiveau + 1)
 
 
-def doubleChrono(frame_count, frame_rate, start_time, case):
+def doubleChrono(screen, frame_count, frame_rate, start_time, case):
     """ case ->boolean pour choisir entre chrono montant ou descandant
             True -> temps montant
             False -> temps descendant
@@ -311,8 +253,8 @@ def doubleChrono(frame_count, frame_rate, start_time, case):
         # --- Timer going up ---
         # Calculate total seconds
         total_seconds = start_time - (frame_count // frame_rate)
-        if total_seconds < 0:
-            total_seconds = 0
+        if total_seconds == 0:
+            game_over(screen)
  
         # Divide by 60 to get total minutes
         minutes = total_seconds // 60
@@ -323,5 +265,19 @@ def doubleChrono(frame_count, frame_rate, start_time, case):
     return minutes, seconds
 
 
+def game_over(screen):
+    running = True
+    while running:
+        for event in pygame.event.get():
+
+            #FERMER
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        screen.blit(gameOver, [0,0])
+
+        pygame.display.update()
+        pygame.time.Clock().tick(FPS)
     
     
