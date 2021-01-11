@@ -61,7 +61,7 @@ def game(screen, modeJeu):
     #Pour le chrono
     frame_count = 0
     frame_rate = 60
-    start_time = 5
+    start_time = 45
     changementNiveau = 0
     while running:
 
